@@ -11,14 +11,14 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-18.04, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - name: Context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - uses: actions-rs/toolchain@v1
@@ -27,7 +27,7 @@ jobs:
           override: true
           components: rustfmt
       - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 14.x
       - name: Setup cmake
@@ -83,31 +83,31 @@ jobs:
         run: |
           mv dist/zecwallet-lite_${{ env.VERSION }}_amd64.deb dist/Zecwallet_Lite_${{ env.VERSION }}_amd64.deb
       - name: Upload artifacts-deb
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         if: contains(matrix.os, 'ubuntu')
         with:
           name: ${{ matrix.os }}
           path: dist/Zecwallet_Lite_${{ env.VERSION }}_amd64.deb
       - name: Upload artifacts-AppImage
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         if: contains(matrix.os, 'ubuntu')
         with:
           name: ${{ matrix.os }}
           path: dist/Zecwallet Lite-${{ env.VERSION }}.AppImage
       - name: Upload artifacts-dmg
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         if: contains(matrix.os, 'macos')
         with:
           name: ${{ matrix.os }}
           path: dist/Zecwallet Lite-${{ env.VERSION }}.dmg
       - name: Upload artifacts-zip
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         if: contains(matrix.os, 'windows')
         with:
           name: ${{ matrix.os }}
           path: dist/Zecwallet Lite-${{ env.VERSION }}-win.zip
       - name: Upload artifacts-msi
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         if: contains(matrix.os, 'windows')
         with:
           name: ${{ matrix.os }}
@@ -122,22 +122,22 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - name: Version
         run: |
           ./bin/printversion.sh
       - name: Download ubuntu
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
-          name: ubuntu-18.04
+          name: ubuntu-latest
       - name: Download windows
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: windows-latest
       - name: Download MacOS
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: macos-latest
       - name: Get gpg key
@@ -150,7 +150,7 @@ jobs:
           gpg --allow-secret-key-import --import gpg.key
           mkdir release
           cp windows-latest/* release/
-          cp ubuntu-18.04/* release/
+          cp ubuntu-latest/* release/
           cp macos-latest/* release/
       - name: Sign binaries
         env:
@@ -159,7 +159,8 @@ jobs:
           bin/signbinaries.sh
           tar -cf artifacts-$APP_VERSION.tar.gz release/signatures*.zip release/Zecwallet*
       - name: Upload final artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: artifacts-${{ env.VERSION }}.tar.gz
+
