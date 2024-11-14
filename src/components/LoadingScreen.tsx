@@ -405,7 +405,7 @@ class LoadingScreen extends Component<Props & RouteComponentProps, LoadingScreen
               </div>
               <div className={[cstyles.well, styles.newwalletcontainer].join(" ")}>
                 <div className={cstyles.verticalflex}>
-                  <div>WARNING: This wallet is no longer maintained! You need to another official wallet.</div>
+                  <div>WARNING: This wallet is no longer maintained! You need to use another official wallet.</div>
                   <div className={[cstyles.large, cstyles.highlight].join(" ")}>Create A New Wallet</div>
                   <div className={cstyles.padtopsmall}>
                     Creates a new wallet with a new randomly generated seed phrase. Please save the seed phrase
