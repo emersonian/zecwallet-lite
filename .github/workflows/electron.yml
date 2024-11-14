@@ -35,7 +35,7 @@ jobs:
         with:
           cmake-version: "3.23.x"
       - name: Install Protoc
-        uses: arduino/setup-protoc@v1
+        uses: arduino/setup-protoc@v3
       - name: Use cmake
         run: cmake --version
       - name: Use protoc
