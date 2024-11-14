@@ -107,7 +107,9 @@ export default class Home extends Component<Props> {
             )}
           </div>
         </div>
-
+        <div className={styles.addressbalancecontainer}>
+          WARNING: This wallet is no longer maintained. Do not expect it to work forever. Migrate to a different official wallet.
+        </div>
         <div className={styles.addressbalancecontainer}>
           <ScrollPane offsetHeight={200}>
             <div className={styles.addressbooklist}>
